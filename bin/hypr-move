@@ -1,0 +1,33 @@
+#!/bin/bash
+waybarsize="20"
+dsph=$(hyprctl monitors -j | jq -r '.[].height')
+dspw=$(hyprctl monitors -j | jq -r '.[].width')
+winh=$(hyprctl activewindow -j | jq -r '.size|.[]' | tail -n 1)
+winw=$(hyprctl activewindow -j | jq -r '.size|.[]' | head -n 1)
+hdown=$(($dsph - $winh))
+hup=$((0 + $waybarsize))
+wleft="0"
+wright=$(($dspw - $winw))
+cuatw=$(hyprctl activewindow -j | jq -r '.at|.[]' | head -n 1)
+cuath=$(hyprctl activewindow -j | jq -r '.at|.[]' | tail -n 1)
+
+
+# move down
+if [ $1 == "down" ]; then
+  hyprctl dispatch moveactive exact $cuatw $hdown
+fi
+
+# move up
+if [ $1 == "up" ]; then
+  hyprctl dispatch moveactive exact $cuatw $hup
+fi
+
+# move left
+if [ $1 == "left" ]; then
+  hyprctl dispatch moveactive exact $wleft $cuath
+fi
+
+# move right
+if [ $1 == "right" ]; then
+  hyprctl dispatch moveactive exact $wright $cuath
+fi
