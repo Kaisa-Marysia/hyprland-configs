@@ -1,0 +1,20 @@
+#clock-label {
+color: #2e253a;
+font-size: 30px;
+margin-top: 50px;
+}
+
+#window {
+}
+
+#input-label {
+font-size: 0px
+}
+
+window {
+   background-image: url("/home/kascha/Bilder/wallpaper-firefox.jpg");
+   background-size: cover;
+   background-repeat: no-repeat;
+   background-position: center;
+   background-color: black;
+}
