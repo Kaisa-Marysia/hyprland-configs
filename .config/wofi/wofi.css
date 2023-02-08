@@ -1,0 +1,35 @@
+window {
+margin: 1px;
+background-color: rgba(0, 0, 0, 0.3);
+width: 50%
+}
+
+#input {
+margin: 1px;
+background-color: #111;
+}
+
+#inner-box {
+margin: 1px;
+background-color: rgba(0, 0, 0, 0.3);
+}
+
+#outer-box {
+margin: 0px;
+background-color: rgba(0, 0, 0, 0.3);
+  }
+
+#scroll {
+margin: 0px;
+background-color: rgba(0, 0, 0, 0.3);
+  }
+
+#text {
+margin: 2px;
+}
+
+#img {
+margin: 2px;
+border-radius: 50%;
+background-color: rgba(0, 0, 0, 0.3);
+}
