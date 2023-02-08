@@ -1,0 +1,48 @@
+#!/bin/bash
+waybarsize="20"
+ID=$(hyprctl activewindow -j | jq -r '.address')
+IDF="/tmp/hypr/hypr$ID"
+curh=$(hyprctl activewindow -j | jq -r '.size|.[]'| tail -n1)
+curw=$(hyprctl activewindow -j | jq -r '.size|.[]'| head -n1)
+cuatw=$(hyprctl activewindow -j | jq -r '.at|.[]' | head -n 1)
+cuath=$(hyprctl activewindow -j | jq -r '.at|.[]' | tail -n 1)
+dsph=$(hyprctl monitors -j | jq -r '.[].height')
+dspw=$(hyprctl monitors -j | jq -r '.[].width')
+
+woldw=$(cat $IDF.w | head -n 2 | tail -n 1)
+woldh=$(cat $IDF.w | head -n 1)
+wolaw=$(cat $IDF.w | tail -n 1)
+wolah=$(cat $IDF.w | tail -n 2 | head -n 1)
+
+holdw=$(cat $IDF.h | head -n 2 | tail -n 1)
+holdh=$(cat $IDF.h | head -n 1)
+holaw=$(cat $IDF.h | tail -n 1)
+holah=$(cat $IDF.h | tail -n 2 | head -n 1)
+
+# max width
+if [ $1 == 'width' ]; then
+  if [ -f "$IDF.w" ]; then
+    hyprctl dispatch resizeactive exact $woldw $woldh
+    hyprctl dispatch moveactive exact $(cat $IDF.w | tail -n 1) $(cat $IDF.w | tail -n 2 | head -n 1)
+    rm $IDF.w
+    exit
+  else
+    echo -e "$curh\n$curw\n$cuath\n$cuatw" > $IDF.w
+  fi
+  hyprctl dispatch moveactive exact 0 $cuath
+  hyprctl dispatch resizeactive exact $dspw $curh
+fi
+
+# max height
+if [ $1 == 'height' ]; then
+  if [ -f "$IDF.h" ]; then
+    hyprctl dispatch resizeactive exact $holdw $holdh
+    hyprctl dispatch moveactive exact $(cat $IDF.h | tail -n 1) $(cat $IDF.h | tail -n 2 | head -n 1)
+    rm $IDF.h
+    exit
+  else
+    echo -e "$curh\n$curw\n$cuath\n$cuatw" > $IDF.h
+  fi
+  hyprctl dispatch moveactive exact $cuatw $waybarsize
+  hyprctl dispatch resizeactive exact $curw $(($dsph - $waybarsize))
+fi
